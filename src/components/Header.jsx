@@ -16,7 +16,7 @@ function Header() {
         position="sticky"
         sx={{ paddingTop: '1em', paddingBottom: '1em', marginBottom: '2em' }}
       >
-        <Toolbar>
+        <Toolbar sx={{gap: '1em'}} >
           <Typography
             variant="h5"
             component={NavLink}
@@ -25,7 +25,14 @@ function Header() {
           >
             Lolo's Reads
           </Typography>
-          {/* <Button color="inherit">Add Review</Button> */}
+          <Typography
+            variant="button"
+            component={NavLink}
+            to="/add"
+            sx={{ textDecoration: 'none', color: 'inherit', display: {xs: 'none', sm: 'block'} }}
+          >
+            New Review
+          </Typography>
           <Fab color="secondary" aria-label="add" component={NavLink} to="/add">
             <AddIcon />
           </Fab>
@@ -35,4 +42,4 @@ function Header() {
   );
 }
 
-export default Header
+export default Header;

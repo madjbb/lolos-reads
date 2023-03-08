@@ -12,6 +12,7 @@ import '@fontsource/roboto/700.css';
 import List from './pages/List';
 import Add from './pages/Add';
 import Update from './pages/Update';
+import View from './pages/View';
 import NotFound from './pages/NotFound';
 
 //Components
@@ -26,6 +27,7 @@ function App() {
           <Route index element={<List />} />
           <Route path="add" element={<Add />} />
           <Route path="update/:id" element={<Update />} />
+          <Route path="view/:id" element={<View />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

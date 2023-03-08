@@ -6,7 +6,7 @@ function List() {
   return (
     <>
       <Typography variant='h4' component="h3">
-        Books Review
+        Book Reviews
       </Typography>
       <BooksList />
     </>
