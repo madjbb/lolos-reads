@@ -17,20 +17,23 @@ import NotFound from './pages/NotFound';
 
 //Components
 import Layout from './components/Layout';
+import { BooksProvider } from './components/contexts/books.context';
 
 function App() {
   return (
     <Router>
     <CssBaseline />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<List />} />
-          <Route path="add" element={<Add />} />
-          <Route path="update/:id" element={<Update />} />
-          <Route path="view/:id" element={<View />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <BooksProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<List />} />
+            <Route path="add" element={<Add />} />
+            <Route path="update/:id" element={<Update />} />
+            <Route path="view/:id" element={<View />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BooksProvider>
     </Router>
   );
 }
