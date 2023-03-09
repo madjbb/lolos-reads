@@ -36,8 +36,9 @@ export const BooksProvider = ({ children }) => {
       const newBooks = [newBook, ...books];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newBooks));
       setBooks(newBooks);
+      console.log(`newBooks`, newBooks);
     },
-    [books, setBooks],
+    [books, setBooks]
   );
 
   return (

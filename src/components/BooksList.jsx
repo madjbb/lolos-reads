@@ -9,30 +9,9 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
-import { nanoid } from 'nanoid';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
-function BooksList({
-  books = []
-}) {
-  // const books = [
-  //   {
-  //     _id: nanoid(),
-  //     title: `Maud's Line`,
-  //     author: `Margaret Verble`,
-  //     rating: 4,
-  //     avatarURL: `https://m.media-amazon.com/images/I/51jKN-G8zUL.jpg`,
-  //   },
-  //   {
-  //     _id: nanoid(),
-  //     title: `The Great Circle`,
-  //     author: `Maggie Shipstead`,
-  //     rating: 3.5,
-  //     avatarURL: `https://m.media-amazon.com/images/I/71awWTAcJQL.jpg`,
-  //   },
-  // ];
-  // console.log('books', books);
-
+function BooksList({ books = [] }) {
   return (
     <List>
       {books.map(({ title, rating, _id, avatarURL }) => (
@@ -47,7 +26,9 @@ function BooksList({
               variant="square"
               src={avatarURL}
               sx={{ width: '2em', height: '100%' }}
-            />
+            >
+              {avatarURL ? null : <AutoStoriesIcon sx={{height: '2.4em'}} />}
+            </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={title}
