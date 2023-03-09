@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,7 +11,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Rating from '@mui/material/Rating';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
-function BooksList({ books = [] }) {
+function BooksList({
+  books = [],
+  deleteHandler = () => console.log('No book deleteHandler provided'),
+}) {
   return (
     <List>
       {books.map(({ title, rating, _id, avatarURL }) => (
@@ -27,7 +30,7 @@ function BooksList({ books = [] }) {
               src={avatarURL}
               sx={{ width: '2em', height: '100%' }}
             >
-              {avatarURL ? null : <AutoStoriesIcon sx={{height: '2.4em'}} />}
+              {avatarURL ? null : <AutoStoriesIcon sx={{ height: '2.4em' }} />}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
@@ -48,7 +51,8 @@ function BooksList({ books = [] }) {
           >
             <EditIcon />
           </IconButton>
-          <IconButton>
+          <IconButton aria-label="delete" onClick={() => deleteHandler(_id) } to={`/`}
+            component={Link}>
             <DeleteIcon />
           </IconButton>
         </ListItem>

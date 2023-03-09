@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 
 export const BooksContext = createContext({
   addBook: () => {},
+  deleteBook: () => {},
   books: [],
   // loading: false,
   // loaded: false,
@@ -12,24 +13,12 @@ export const BooksContext = createContext({
 
 export const BooksProvider = ({ children }) => {
   const [books, setBooks] = useState(() => {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
-      {
-        _id: nanoid(),
-        title: `Maud's Line`,
-        rating: 4,
-        avatarURL: `https://m.media-amazon.com/images/I/51jKN-G8zUL.jpg`,
-      },
-      {
-        _id: nanoid(),
-        title: `Great Circle`,
-        rating: 3.5,
-        avatarURL: `https://m.media-amazon.com/images/I/71awWTAcJQL.jpg`,
-      },
-    ];
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
   });
   // const [loading, setLoading] = useState(false);
   // const [loaded, setLoaded] = useState(false);
   // const [error, setError] = useState(null);
+  
   const addBook = useCallback(
     (formData) => {
       const newBook = {_id: nanoid(), ...formData};
@@ -41,6 +30,19 @@ export const BooksProvider = ({ children }) => {
     [books, setBooks]
   );
 
+  const deleteBook = useCallback(
+    (id) => {
+      const idx = books.findIndex((book) => (book._id === id));
+      const updatedBooks = [...books.slice(0, idx), ...books.slice(idx + 1)];
+      // [...cars.slice(0, index), ...cars.slice(index + 1)]
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
+      setBooks(updatedBooks);
+      console.log(`newBooks`, updatedBooks);
+    },
+    [books, setBooks],
+  );
+  
+
   return (
     <BooksContext.Provider
       value={{
@@ -49,6 +51,7 @@ export const BooksProvider = ({ children }) => {
         // loaded,
         // error,
         addBook,
+        deleteBook,
       }}
     >
       {children}

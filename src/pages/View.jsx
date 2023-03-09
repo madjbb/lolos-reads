@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import BookForm from '../components/forms/BookForm';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
@@ -7,22 +7,17 @@ import { nanoid } from 'nanoid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
+import { BooksContext } from '../components/contexts/books.context';
 
 function View() {
-  const book = {
-    _id: nanoid(),
-    title: 'Braiding Sweetgrass',
-    author: 'Robin Wall Kimmerer',
-    avatarURL: 'https://m.media-amazon.com/images/I/71OgjPcg6-L.jpg',
-    feelings: 'Grateful',
-    characters: 'The natural world',
-    writingStyle: 'Calm, deep, insightful',
-    notLiked: 'Her mentions of her ex',
-    mostEnjoyed: 'How the book is dripping with gratitude for nature and life',
-    other: 'Beautiful, uplifting and lifegiving read',
-    rating: 4.5,
-  };
+  const { books, deleteBook } = useContext(BooksContext);
+
+  const { id } = useParams();
+  const book = books.find((book) => book._id === id);
+
+  console.log('book', book);
 
   const formRowStyle = {
     marginBlockEnd: '2em',
@@ -33,7 +28,7 @@ function View() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'min-content auto min-content',
+          gridTemplateColumns: 'min-content auto max-content',
           gridTemplateRows: 'auto',
           gridTemplateAreas: `
           'img info icons'
@@ -86,76 +81,97 @@ function View() {
           >
             <EditIcon />
           </IconButton>
-          <IconButton size="large" sx={{ gridArea: 'delete' }}>
+          <IconButton
+            size="large"
+            sx={{ gridArea: 'delete' }}
+            to={'/'}
+            component={Link}
+            onClick={() => deleteBook(id)}
+          >
             <DeleteIcon />
           </IconButton>
         </div>
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="feelings"
-          type="text"
-          fullWidth
-          label="How did this book make you feel?"
-          defaultValue={book.feelings}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {/* {(book.feelings && book.characters && book.writingStyle && book.notLiked && book.mostEnjoyed && book.other) && (<p>Add more details to your review</p>)} */}
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="characters"
-          type="text"
-          fullWidth
-          label="Who were your favourite characters?"
-          defaultValue={book.characters}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {book.feelings && (
+          <TextField
+            id="feelings"
+            type="text"
+            fullWidth
+            label="How did this book make you feel?"
+            defaultValue={book.feelings}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="writingStyle"
-          type="text"
-          fullWidth
-          label="What were your thoughts on the writing style?"
-          defaultValue={book.writingStyle}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {book.characters && (
+          <TextField
+            id="characters"
+            type="text"
+            fullWidth
+            label="Who were your favourite characters?"
+            defaultValue={book.characters}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="notLiked"
-          type="text"
-          fullWidth
-          label="Was there anything you didn't like?"
-          defaultValue={book.notLiked}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {book.writingStyle && (
+          <TextField
+            id="writingStyle"
+            type="text"
+            fullWidth
+            label="What were your thoughts on the writing style?"
+            defaultValue={book.writingStyle}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="mostEnjoyed"
-          type="text"
-          fullWidth
-          label="What did you most enjoy?"
-          defaultValue={book.mostEnjoyed}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {book.notLiked && (
+          <TextField
+            id="notLiked"
+            type="text"
+            fullWidth
+            label="Was there anything you didn't like?"
+            defaultValue={book.notLiked}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
       </div>
       <div style={formRowStyle}>
-        <TextField
-          id="other"
-          type="text"
-          fullWidth
-          label="Any other comments?"
-          defaultValue={book.other}
-          InputProps={{ readOnly: true }}
-          maxRows={10}
-        />
+        {book.mostEnjoyed && (
+          <TextField
+            id="mostEnjoyed"
+            type="text"
+            fullWidth
+            label="What did you most enjoy?"
+            defaultValue={book.mostEnjoyed}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
+      </div>
+      <div style={formRowStyle}>
+        {book.other && (
+          <TextField
+            id="other"
+            type="text"
+            fullWidth
+            label="Any other comments?"
+            defaultValue={book.other}
+            InputProps={{ readOnly: true }}
+            maxRows={10}
+          />
+        )}
       </div>
     </>
   );
