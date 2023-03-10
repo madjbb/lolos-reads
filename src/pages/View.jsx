@@ -3,10 +3,12 @@ import React, { useContext, useEffect } from 'react';
 import BookForm from '../components/forms/BookForm';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
+import Avatar from '@mui/material/Avatar';
 import { nanoid } from 'nanoid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link, useParams } from 'react-router-dom';
 
 import { BooksContext } from '../components/contexts/books.context';
@@ -37,7 +39,7 @@ function View() {
           marginBottom: '2em',
         }}
       >
-        <img
+        {/* <img
           src={book.avatarURL}
           alt="book cover image"
           style={{
@@ -46,7 +48,19 @@ function View() {
             border: '0.5px solid grey',
             gridArea: 'img',
           }}
-        />
+        /> */}
+        <Avatar
+          variant="square"
+          src={book.avatarURL}
+          sx={{
+            width: '4.5em',
+            height: '100%',
+            border: '0.5px solid grey',
+            gridArea: 'img',
+          }}
+        >
+          {book.avatarURL ? null : <AutoStoriesIcon sx={{ height: '2.4em' }} />}
+        </Avatar>
         <div style={{ gridArea: 'info' }}>
           <Typography
             variant="h4"
@@ -91,9 +105,6 @@ function View() {
             <DeleteIcon />
           </IconButton>
         </div>
-      </div>
-      <div style={formRowStyle}>
-        {/* {(book.feelings && book.characters && book.writingStyle && book.notLiked && book.mostEnjoyed && book.other) && (<p>Add more details to your review</p>)} */}
       </div>
       <div style={formRowStyle}>
         {book.feelings && (
@@ -173,6 +184,12 @@ function View() {
           />
         )}
       </div>
+      {!book.feelings &&
+        !book.characters &&
+        !book.writingStyle &&
+        !book.notLiked &&
+        !book.mostEnjoyed &&
+        !book.other && <p>Add more info to your review.</p>}
     </>
   );
 }

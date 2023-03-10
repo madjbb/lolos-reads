@@ -28,7 +28,7 @@ function BooksList({
             <Avatar
               variant="square"
               src={avatarURL}
-              sx={{ width: '2em', height: '100%' }}
+              sx={{ width: '2em', height: '100%', border: '0.5px solid grey' }}
             >
               {avatarURL ? null : <AutoStoriesIcon sx={{ height: '2.4em' }} />}
             </Avatar>
