@@ -8,7 +8,7 @@ import { BooksContext } from '../components/contexts/books.context';
 function List() {
   const { books, deleteBook } = useContext(BooksContext);
   // const navigate = useNavigate();
-  console.log('books', books);
+  // console.log('books', books);
   // const deleteHandler = () => {
   //   deleteBook();
   // };

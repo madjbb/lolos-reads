@@ -44,9 +44,9 @@ function BookForm({ book, submitHandler=(() => {}) }) {
     defaultValues: book || defaults,
   });
 
-  useEffect(() => {
-    console.log(formState);
-  });
+  // useEffect(() => {
+  //   console.log(formState);
+  // });
 
   // pre-populate form if book passed (i.e. when updating)?
   useEffect(() => {
@@ -62,9 +62,9 @@ function BookForm({ book, submitHandler=(() => {}) }) {
   let submitFn = (vals) => {
     reset();
     console.log(`vals`, vals);
-    submitHandler(vals);
+    // submitHandler(vals);
     // for updating as well as adding
-    // book ? submitHandler(book._id, vals) : submitHandler(vals);
+    book ? submitHandler(book._id, vals) : submitHandler(vals);
   };
 
   return (

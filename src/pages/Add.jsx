@@ -8,7 +8,7 @@ import { BooksContext } from '../components/contexts/books.context';
 function Add() {
   const navigate = useNavigate();
   const {addBook} = useContext(BooksContext);
-  console.log(addBook);
+  // console.log(addBook);
   const submitHandler = (data) => {
     addBook(data);
     navigate('/');

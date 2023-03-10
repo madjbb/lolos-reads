@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 export const BooksContext = createContext({
   addBook: () => {},
   deleteBook: () => {},
+  updateBooks: () => {},
   books: [],
   // loading: false,
   // loaded: false,
@@ -22,10 +23,10 @@ export const BooksProvider = ({ children }) => {
   const addBook = useCallback(
     (formData) => {
       const newBook = {_id: nanoid(), ...formData};
-      const newBooks = [newBook, ...books];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newBooks));
-      setBooks(newBooks);
-      console.log(`newBooks`, newBooks);
+      const updatedBooks = [newBook, ...books];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
+      setBooks(updatedBooks);
+      console.log(`updatedBooks`, updatedBooks);
     },
     [books, setBooks]
   );
@@ -41,8 +42,30 @@ export const BooksProvider = ({ children }) => {
     },
     [books, setBooks],
   );
-  
 
+  const updateBook = useCallback(
+    (id, formData) => {
+      const idx = books.findIndex((book) =>(book._id === id));
+      const oldBook = books[idx];
+      console.log('oldBook', oldBook)
+      // grab just the diffs
+      let updates = {};
+      for (const key of Object.keys(formData)) {
+        if (formData[key] === `_id`) continue;
+        if (formData[key] !== oldBook[key]) {
+          updates[key] = formData[key];
+        }
+      };
+      const updatedBook = {...oldBook, ...updates};
+      console.log('updatedBook', updatedBook);
+      const updatedBooks = [...books.slice(0, idx), updatedBook, ...books.slice(idx + 1)];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
+      setBooks(updatedBooks);
+      console.log('updatedBooks', updatedBooks);
+    },
+    [books, setBooks],
+  )
+  
   return (
     <BooksContext.Provider
       value={{
@@ -52,6 +75,7 @@ export const BooksProvider = ({ children }) => {
         // error,
         addBook,
         deleteBook,
+        updateBook,
       }}
     >
       {children}
