@@ -6,16 +6,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 const schema = yup.object().shape({
-  title: yup.string().required(),
-  author: yup.string().required(),
-  avatarURL: yup.string().url(),
+  title: yup.string().required('title required'),
+  author: yup.string().required('author required'),
+  avatarURL: yup.string().url('must be url'),
   feelings: yup.string(),
   characters: yup.string(),
   writingStyle: yup.string(),
   notLiked: yup.string(),
   mostEnjoyed: yup.string(),
   other: yup.string(),
-  rating: yup.number().required(),
+  rating: yup.number('must be a number').min(0,'must be a number between 0-5').max(5,'must be between 0-5').required('rating required'),
 });
 
 const defaults = {
@@ -44,9 +44,9 @@ function BookForm({ book, submitHandler=(() => {}) }) {
     defaultValues: book || defaults,
   });
 
-  // useEffect(() => {
-  //   console.log(formState);
-  // });
+  useEffect(() => {
+    console.log(formState);
+  });
 
   // pre-populate form if book passed (i.e. when updating)?
   useEffect(() => {
@@ -80,8 +80,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Title"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.title}
+              helperText={errors.title?.message}
             />
           )}
         />
@@ -97,8 +97,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Author"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.author}
+              helperText={errors.author?.message}
             />
           )}
         />
@@ -114,8 +114,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Book Image URL"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.avatarURL}
+              helperText={errors.avatarURL?.message}
             />
           )}
         />
@@ -131,8 +131,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="How did this book make you feel?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.feelings}
+              helperText={errors.feelings?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -151,8 +151,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Who were your favourite characters?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.characters}
+              helperText={errors.characters?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -171,8 +171,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="What were your thoughts on the writing style?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.writingStyle}
+              helperText={errors.writingStyle?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -191,8 +191,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Was there anything you didn't like?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.notLiked}
+              helperText={errors.notLiked?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -211,8 +211,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="What did you most enjoy?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.mostEnjoyed}
+              helperText={errors.mostEnjoyed?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -231,8 +231,8 @@ function BookForm({ book, submitHandler=(() => {}) }) {
               {...field}
               label="Any other comments?"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.other}
+              helperText={errors.other?.message}
               multiline
               // rows={5}
               maxRows={10}
@@ -247,12 +247,13 @@ function BookForm({ book, submitHandler=(() => {}) }) {
           defaultValue={''}
           render={({ field }) => (
             <TextField
-              type="number"
+              type="text"
               {...field}
               label="Rating (out of 5)"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.rating}
+              // helperText={errors.rating?.message}
+              helperText={errors.rating?.type === 'typeError' ? 'must be a number' : errors.rating?.message}
             />
           )}
         />
