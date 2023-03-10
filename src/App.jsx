@@ -18,22 +18,25 @@ import NotFound from './pages/NotFound';
 //Components
 import Layout from './components/Layout';
 import { BooksProvider } from './components/contexts/books.context';
+import { SnackbarProvider } from './components/contexts/snackbar.context';
 
 function App() {
   return (
     <Router>
     <CssBaseline />
-      <BooksProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<List />} />
-            <Route path="add" element={<Add />} />
-            <Route path="update/:id" element={<Update />} />
-            <Route path="view/:id" element={<View />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BooksProvider>
+      <SnackbarProvider>
+        <BooksProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<List />} />
+              <Route path="add" element={<Add />} />
+              <Route path="update/:id" element={<Update />} />
+              <Route path="view/:id" element={<View />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </BooksProvider>
+      </SnackbarProvider>
     </Router>
   );
 }

@@ -1,6 +1,7 @@
-import React, { createContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useState, useCallback, useContext } from 'react';
 import { STORAGE_KEY } from '../../settings.js';
 import { nanoid } from 'nanoid';
+import { SnackbarContext } from './snackbar.context.jsx';
 
 export const BooksContext = createContext({
   addBook: () => {},
@@ -13,6 +14,7 @@ export const BooksContext = createContext({
 });
 
 export const BooksProvider = ({ children }) => {
+  const {openSnackbar} = useContext(SnackbarContext);
   const [books, setBooks] = useState(() => {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
   });
@@ -27,6 +29,7 @@ export const BooksProvider = ({ children }) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
       setBooks(updatedBooks);
       console.log(`updatedBooks`, updatedBooks);
+      openSnackbar({severity: 'success', message: 'Book review added!'})
     },
     [books, setBooks]
   );
@@ -39,6 +42,7 @@ export const BooksProvider = ({ children }) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
       setBooks(updatedBooks);
       console.log(`newBooks`, updatedBooks);
+      openSnackbar({severity: 'success', message: 'Book review deleted!'})
     },
     [books, setBooks],
   );
@@ -62,6 +66,7 @@ export const BooksProvider = ({ children }) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
       setBooks(updatedBooks);
       console.log('updatedBooks', updatedBooks);
+      openSnackbar({severity: 'success', message: 'Book review updated!'})
     },
     [books, setBooks],
   )
